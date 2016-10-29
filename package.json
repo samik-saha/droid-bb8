@@ -1,0 +1,12 @@
+{
+  "name": "my-bot-nodejs",
+  "version": "1.0.0",
+  "description": "A nodejs bot using Microsoft's Bot Framework",
+  "main": "server.js",
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "botbuilder": "^3.4.0",
+    "restify": "^5.0.0-beta-2"
+  }
+}
