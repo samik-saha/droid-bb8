@@ -50,7 +50,17 @@ dialog.matches('Definition', [
                     session.endDialog('As per Pearson dictionary, the definition of %s is: %s', headword, definition);
                 }
                 else{
-                    session.endDialog('Sorry! Couldn\'t find the definition for %s', headword);
+                    request('https://en.wiktionary.org/w/api.php?action=query&format=json&redirects=true&prop=extracts&explaintext=true&exsectionformat=plain&titles='+headword, function(err, response, body){
+                        //console.log(body);
+                        var obj = JSON.parse(body);
+                        var definition = obj.query.pages[Object.keys(obj.query.pages)[0]].extract;
+                        if (definition){
+                            session.endDialog('Here is what I found on Wikitionary on %s: %s', headword, definition);
+                        }
+                        else {
+                            session.endDialog('Sorry! Couldn\'t find the definition for %s', headword);
+                        }
+                    });
                 }
             });})(headword)
         }
