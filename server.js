@@ -12,7 +12,7 @@ server.listen(process.env.port || process.env.PORT || 3978, function () {
 });
   
 // Create chat bot
-var connector = new builder.ChatConnector({
+var connector = new builder.ConsoleConnector({
     appId: '2208f077-2927-4b72-9c00-38dd7653ee56',
     appPassword: 'dWsbHnvYr5MWofARC76WVu7'
 });
@@ -24,11 +24,11 @@ var intents = new builder.IntentDialog();
 
 var model = 'https://api.projectoxford.ai/luis/v1/application?id=c413b2ef-382c-45bd-8ff0-f76d60e2a821&subscription-key=a728fc8d1b7b45329ef42dcebd06ddb5';
 var recognizer = new builder.LuisRecognizer(model);
-console.log(recognizer);
+//console.log(recognizer);
 var dialog = new builder.IntentDialog({ recognizers: [recognizer] });
 bot.dialog('/', dialog);
 
-dialog.matches('builtin.intent.reminder.create_single_reminder',[
+dialog.matches('builtin.intent.reminder.create_single_reminder', [
     function (session, args, next){
         var reminder_text=builder.EntityRecognizer.findEntity(args.entities, 'builtin.reminder.reminder_text');
         var start_date=builder.EntityRecognizer.findEntity(args.entities, 'builtin.reminder.start_date');

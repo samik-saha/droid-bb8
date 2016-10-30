@@ -1,12 +1,12 @@
 {
-  "name": "my-bot-nodejs",
+  "name": "droid-bb8",
   "version": "1.0.0",
   "description": "A nodejs bot using Microsoft's Bot Framework",
   "main": "server.js",
-  "author": "",
+  "author": "Samik",
   "license": "ISC",
   "dependencies": {
-    "botbuilder": "^3.4.0",
+    "botbuilder": "^3.4.2",
     "restify": "^5.0.0-beta-2"
   }
 }
