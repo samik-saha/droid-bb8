@@ -63,7 +63,8 @@ dialog.matches('Definition', [
             });})(headword)
         }
         else {
-            session.endDialog('Sorry, I could not understand!')
+            session.send('Sorry, I could not understand!')
+            session.beginDialog('/capability');
         }
         
     }]);
@@ -96,7 +97,8 @@ dialog.matches('Information', [
             });})(keyword)
         }
         else {
-            session.endDialog('Sorry, I did not understand that!')
+            session.send('Sorry, I did not understand that!')
+            session.beginDialog('/capability');
         }
     }
 ]);
@@ -166,7 +168,8 @@ dialog.matches('capability','/capability');
 
 dialog.onDefault(
     function (session, results){
-        session.send("Sorry! I didn't understand that!", session.userData.name);
+        session.send("Sorry! I didn't understand that!");
+        session.beginDialog('/capability');
     }
 );
 
