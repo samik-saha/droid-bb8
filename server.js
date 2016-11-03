@@ -1,6 +1,7 @@
 var restify = require('restify');
 var builder = require('botbuilder');
 var request = require('request');
+var wikidata = require('./wikidata')
 
 //=========================================================
 // Bot Setup
@@ -77,12 +78,22 @@ dialog.matches('Information', [
         }
         if (keyword){
             (function (keyword){
-            request('https://en.wikipedia.org/w/api.php?action=query&prop=extracts&redirects=true&format=json&exintro=true&explaintext=true&titles='+keyword, function(err, response, body){
-                //console.log(body);
-                var obj = JSON.parse(body);
-                var extract = obj.query.pages[Object.keys(obj.query.pages)[0]].extract;
-                if (extract){
-                    session.endDialog('Here is an extract from wikipedia for %s: %s', keyword, extract);
+                    wikidata.search_wikipedia(keyword, function(title,extract,thumbnail_url){
+                        thumbnail_url = thumbnail_url||'';
+                        if (extract){
+                            var msg = new builder.Message(session)
+                                .textFormat(builder.TextFormat.xml)
+                                .attachments([
+                                    new builder.HeroCard(session)
+                                        .title(title)
+                                        .subtitle('Wikipedia')
+                                        .text(extract)
+                                        .images([
+                                            builder.CardImage.create(session, thumbnail_url)
+                                        ])
+                                        .tap(builder.CardAction.openUrl(session, "https://en.wikipedia.org/wiki/"+title))
+                                ]);
+                            session.endDialog(msg);
                 }
                 else{
                     session.endDialog('Sorry! Couldn\'t find wikipedia entry for %s', keyword);
