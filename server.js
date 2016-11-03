@@ -51,10 +51,7 @@ dialog.matches('Definition', [
                     session.endDialog('As per Pearson dictionary, the definition of %s is: %s', headword, definition);
                 }
                 else{
-                    request('https://en.wiktionary.org/w/api.php?action=query&format=json&redirects=true&prop=extracts&explaintext=true&exsectionformat=plain&titles='+headword, function(err, response, body){
-                        //console.log(body);
-                        var obj = JSON.parse(body);
-                        var definition = obj.query.pages[Object.keys(obj.query.pages)[0]].extract;
+                    wikidata.search_wiktionary(headword, function(definition){
                         if (definition){
                             session.endDialog('Here is what I found on Wikitionary on %s: %s', headword, definition);
                         }
@@ -84,20 +81,18 @@ dialog.matches('Information', [
                             var msg = new builder.Message(session)
                                 .textFormat(builder.TextFormat.xml)
                                 .attachments([
-                                    new builder.HeroCard(session)
+                                    new builder.ThumbnailCard(session)
                                         .title(title)
                                         .subtitle('Wikipedia')
                                         .text(extract)
-                                        .images([
-                                            builder.CardImage.create(session, thumbnail_url)
-                                        ])
-                                        .tap(builder.CardAction.openUrl(session, "https://en.wikipedia.org/wiki/"+title))
+                                        .images([ builder.CardImage.create(session, thumbnail_url) ])
+                                        .tap(builder.CardAction.openUrl(session, "https://en.wikipedia.org"))
                                 ]);
                             session.endDialog(msg);
-                }
-                else{
-                    session.endDialog('Sorry! Couldn\'t find wikipedia entry for %s', keyword);
-                }
+                        }
+                        else{
+                            session.endDialog('Sorry! Couldn\'t find wikipedia entry for %s', keyword);
+                        }
             });})(keyword)
         }
         else {
@@ -167,6 +162,8 @@ dialog.matches('GreetUser', [
     }
 ]);
 
+dialog.matches('capability','/capability');
+
 dialog.onDefault(
     function (session, results){
         session.send("Sorry! I didn't understand that!", session.userData.name);
@@ -196,3 +193,10 @@ bot.dialog('/profile', [
         session.endDialog();
     }
 ]);
+
+bot.dialog('/capability',
+    function (session) {
+        session.send('Currently, I can search for word definitions, provide you information from Wikipedia etc.');
+        session.endDialog('For example, you can ask "Can you tell me about Taj Mahal" or "Who is Einstein" or "Meaning of acquiesce"');
+    }
+);

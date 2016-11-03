@@ -37,6 +37,37 @@ var search_wikipedia = function (keyword, fn){
     });
 };
 
-//search_wikipedia('tendulkar', function(extract){console.log('extract: '+extract)});
+//search_wikipedia('marie curie', function(title,extract){console.log('extract: '+extract)});
 
 exports.search_wikipedia = search_wikipedia;
+
+var search_wiktionary = function (headword, fn){
+    request({
+        url:'https://en.wiktionary.org/w/api.php',
+        qs: {
+            format: 'json',
+            action: 'query',
+            titles: headword,
+            prop: 'extracts',
+            redirects: 'true',
+            explaintext: 'true'
+        },
+        
+        callback: function(err, resp, body){
+            //console.log('body: '+body);
+            var obj = JSON.parse(body);
+            var definition = obj.query.pages[Object.keys(obj.query.pages)[0]].extract;
+            if (definition){
+                fn(definition);
+            }
+            else {
+                fn(null);
+            }
+            
+        }
+    });
+}
+
+exports.search_wiktionary = search_wiktionary;
+
+//search_wiktionary('enervate');
