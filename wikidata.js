@@ -57,6 +57,11 @@ var search_wiktionary = function (headword, fn){
             //console.log('body: '+body);
             var obj = JSON.parse(body);
             var definition = obj.query.pages[Object.keys(obj.query.pages)[0]].extract;
+            definition = definition.replace(/====(.+)/g,'####$1');
+            definition = definition.replace(/===(.+)/g,'###$1');
+            definition = definition.replace(/==(.+)/g,'##$1');
+            definition = definition.replace(/=/g,'');
+            definition = definition.split('#### Translations')[0];
             if (definition){
                 fn(definition);
             }
@@ -70,4 +75,4 @@ var search_wiktionary = function (headword, fn){
 
 exports.search_wiktionary = search_wiktionary;
 
-//search_wiktionary('enervate');
+//search_wiktionary('enervate',function(x){console.log(x)});

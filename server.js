@@ -53,7 +53,7 @@ dialog.matches('Definition', [
                 else{
                     wikidata.search_wiktionary(headword, function(definition){
                         if (definition){
-                            session.endDialog('Here is what I found on Wikitionary on %s: %s', headword, definition);
+                            session.endDialog('Here is what I found on Wikitionary for %s: %s', headword, definition);
                         }
                         else {
                             session.endDialog('Sorry! Couldn\'t find the definition for %s', headword);
@@ -199,7 +199,7 @@ bot.dialog('/profile', [
 
 bot.dialog('/capability',
     function (session) {
-        session.send('Currently, I can search for word definitions, provide you information from Wikipedia etc.');
+        session.send('Currently, I can search for word definitions, provide you information from **Wikipedia** etc.');
         session.endDialog('For example, you can ask "Can you tell me about Taj Mahal" or "Who is Einstein" or "Meaning of acquiesce"');
     }
 );
