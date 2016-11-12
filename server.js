@@ -80,15 +80,11 @@ dialog.matches('Information', [
                         thumbnail_url = thumbnail_url||'';
                         if (extract){
                             var msg = new builder.Message(session)
-                                .textFormat(builder.TextFormat.xml)
-                                .attachments([
-                                    new builder.ThumbnailCard(session)
-                                        .title(title)
-                                        .subtitle('Wikipedia')
-                                        .text(extract)
-                                        .images([ builder.CardImage.create(session, thumbnail_url) ])
-                                        .tap(builder.CardAction.openUrl(session, "https://en.wikipedia.org"))
-                                ]);
+                                .text('# %s \n %s', title,extract)
+                                .addAttachment({
+                                    contentType: "image/png",
+                                    contentUrl: thumbnail_url
+                                });
                             session.endDialog(msg);
                         }
                         else{
@@ -102,6 +98,27 @@ dialog.matches('Information', [
         }
     }
 ]);
+
+dialog.matches ('getProperty',function(session, args, next){
+    var property = builder.EntityRecognizer.findEntity(args.entities, 'property');
+    var item = builder.EntityRecognizer.findEntity(args.entities, 'item');
+    //console.log(property.entity+entity.entity);
+    if(property && item){
+        wikidata.getProperty(item.entity,property.entity, function(answer){
+            if(answer){
+                session.endDialog('It is %s', answer);
+            }
+            else {
+                session.endDialog('Sorry! coudn\'t find it');
+            }
+       })
+   }
+   else {
+       session.send('Sorry!, I didn\'t understand that!');
+       session.beginDialog('/capability');
+   }
+});
+
 dialog.matches('builtin.intent.reminder.create_single_reminder', [
     function (session, args, next){
         var reminder_text=builder.EntityRecognizer.findEntity(args.entities, 'builtin.reminder.reminder_text');
