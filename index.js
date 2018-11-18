@@ -25,7 +25,7 @@ const DEV_ENVIRONMENT = 'development';
 
 // bot name as defined in .bot file
 // See https://aka.ms/about-bot-file to learn more about .bot file its use and bot configuration.
-const BOT_CONFIGURATION =  DEV_ENVIRONMENT;
+const BOT_CONFIGURATION =  (process.env.NORE_ENV|DEV_ENVIRONMENT);
 
 
 // Create HTTP server
