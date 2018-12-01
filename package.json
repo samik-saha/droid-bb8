@@ -1,5 +1,5 @@
 {
-    "name": "echoBot",
+    "name": "MyBot",
     "version": "1.0.0",
     "description": "Just Echo",
     "author": "Microsoft Bot Builder Yeoman Generator v4.0.10",
@@ -13,6 +13,7 @@
     },
     "dependencies": {
         "botbuilder": "^4.0.6",
+        "botbuilder-ai": "^4.1.7",
         "botframework-config": "^4.0.6",
         "dotenv": "^6.0.0",
         "restify": "^6.3.4"

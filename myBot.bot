@@ -1,5 +1,5 @@
 {
-    "name": "echoBot",
+    "name": "myBot",
     "services": [
         {
             "type": "endpoint",
@@ -10,11 +10,11 @@
             "id": "1"
         },
         {
-            "type": "endpoint",
-            "name": "production",
-            "endpoint": "https://droid-bb8.herokuapp.com/api/messages",
-            "appId": "",
-            "appPassword": "",
+            "type": "luis",
+            "name": "droid-bb8",
+            "appId": "f77bc8fd-aaee-4b34-a71e-a6e9cadec9b5",
+            "authoringKey":"a728fc8d1b7b45329ef42dcebd06ddb5",
+            "region":"westus",
             "id": "2"
         }
     ],
