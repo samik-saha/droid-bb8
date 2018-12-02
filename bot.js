@@ -3,7 +3,7 @@
 
 const { ActivityTypes } = require('botbuilder');
 const { LuisRecognizer } = require('botbuilder-ai');
-const { search_wiktionary } = require('./wikidata')
+const { search_wiktionary, searchWikipedia } = require('./wikidata')
 const axios = require('axios');
 
 // Turn counter property
@@ -58,7 +58,18 @@ class MyBot {
           await handleDefinitionRequest(headword, context)
           break;
         case INFORMATION_INTENT:
-          await context.sendActivity(`Information Intent`);
+          let keyword=results.entities.keyword;
+          if (keyword){
+            await context.sendActivity(`Searching for information on ${keyword}`);
+            let wikipedia_data = await searchWikipedia(`${keyword}`);
+            if (wikipedia_data){
+              await context.sendActivity(wikipedia_data.extract);
+            } else{
+              await context.sendActivity("Sorry! I couldn't find anything on that");
+            }
+          }else{
+            await context.sendActivity('Sorry, I could not understand!')
+          }
           break;
         case GET_PROPERTY_INTENT:
           await context.sendActivity(`Property Intent`);

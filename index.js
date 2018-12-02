@@ -23,8 +23,6 @@ const env = require('dotenv').config({path: ENV_FILE});
 // See https://aka.ms/about-bot-file to learn more about .bot file its use and bot configuration .
 const DEV_ENVIRONMENT = 'development';
 
-console.log('NODE_ENV:' + process.env.NORE_ENV);
-
 // bot name as defined in .bot file
 // See https://aka.ms/about-bot-file to learn more about .bot file its use and bot configuration.
 const BOT_CONFIGURATION =  (process.env.NORE_ENV||DEV_ENVIRONMENT);
